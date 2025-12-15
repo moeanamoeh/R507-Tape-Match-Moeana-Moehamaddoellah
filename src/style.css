@@ -1,0 +1,27 @@
+/* Réinitialisation de base */
+body {
+    margin: 0;
+    overflow: hidden; /* Empêche les barres de défilement */
+    font-family: sans-serif;
+    color: white;
+}
+
+/* Le conteneur principal */
+#app {
+    width: 100vw;
+    height: 100vh;
+    display: block; /* Important pour le rendu Three.js */
+}
+
+/* Le canvas de Three.js doit remplir le conteneur */
+canvas {
+    display: block;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* Styles pour le GUI dat.gui */
+.dg.main {
+    font-size: 14px;
+    z-index: 1000; /* Assure que le GUI est au-dessus du canvas */
+}
