@@ -497,3 +497,5 @@ difficulty = settings.difficulty;
 timeLimit = settings.timeLimit;
 updateHUD();
 showMessage("Choisis tes options dans le GUI → puis Lance la partie ✅", 2500);
+hud.style.pointerEvents = "none";
+messageEl.style.pointerEvents = "none";
