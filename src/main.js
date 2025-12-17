@@ -95,6 +95,24 @@ hud.innerHTML = `
 `;
 container.style.position = "relative";
 container.appendChild(hud);
+// --- STOCKAGE (barre d'inventaire visible) ---
+const storage = document.createElement("div");
+storage.style.position = "absolute";
+storage.style.left = "16px";
+storage.style.bottom = "16px";
+storage.style.zIndex = "1600";
+storage.style.background = "rgba(20, 20, 30, 0.88)";
+storage.style.color = "white";
+storage.style.padding = "10px 12px";
+storage.style.borderRadius = "12px";
+storage.style.minWidth = "260px";
+storage.style.boxShadow = "0 10px 30px rgba(0,0,0,0.35)";
+storage.innerHTML = `
+  <div style="font-weight:800;margin-bottom:8px;">📦 Stockage</div>
+  <div id="storageSlots" style="display:flex;gap:8px;flex-wrap:wrap;"></div>
+`;
+container.appendChild(storage);
+
 
 const messageEl = document.createElement("div");
 messageEl.className = "message";
@@ -130,6 +148,35 @@ function setOverlay(show, title = "", finalScore = 0) {
   }
 }
 
+function renderStorage() {
+  const cfg = getDifficultyConfig();
+  const slotsEl = document.getElementById("storageSlots");
+  if (!slotsEl) return;
+
+  slotsEl.innerHTML = "";
+
+  for (let i = 0; i < cfg.inventorySize; i++) {
+    const slot = document.createElement("div");
+    slot.style.width = "26px";
+    slot.style.height = "26px";
+    slot.style.borderRadius = "8px";
+    slot.style.border = "2px solid rgba(255,255,255,0.22)";
+    slot.style.boxSizing = "border-box";
+
+    if (inventory[i]) {
+      // couleur de la tuile stockée
+      const c = inventory[i].userData.originalColor; // ex: 0xff6b6b
+      slot.style.background = `#${c.toString(16).padStart(6, "0")}`;
+      slot.title = `Tuile type ${inventory[i].userData.type}`;
+    } else {
+      slot.style.background = "rgba(255,255,255,0.08)";
+      slot.title = "Vide";
+    }
+
+    slotsEl.appendChild(slot);
+  }
+}
+
 function updateHUD() {
   const cfg = getDifficultyConfig();
   hud.querySelector("#hudScore").textContent = String(score);
@@ -142,7 +189,11 @@ function updateHUD() {
   } else {
     timeRow.style.display = "none";
   }
+
+  // met à jour l'affichage du stockage
+  renderStorage();
 }
+
 
 // Difficulty config (reprend ta logique TSX)
 function getDifficultyConfig() {
@@ -499,3 +550,5 @@ updateHUD();
 showMessage("Choisis tes options dans le GUI → puis Lance la partie ✅", 2500);
 hud.style.pointerEvents = "none";
 messageEl.style.pointerEvents = "none";
+storage.style.pointerEvents = "none";
+
