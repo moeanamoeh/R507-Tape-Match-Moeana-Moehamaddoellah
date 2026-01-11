@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "gh-pages -d dist"
   },
   "devDependencies": {
     "vite": "^7.2.4"
